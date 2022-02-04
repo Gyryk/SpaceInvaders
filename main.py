@@ -3,7 +3,7 @@ import random
 import math
 
 from pygame import mixer
-from pygame.constants import K_RETURN
+# from pygame.constants import K_RETURN
 
 # Initialize game
 pygame.init()
@@ -13,18 +13,19 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
 # Customizing the Window
-pygame.display.set_caption("Gyryk")
+pygame.display.set_caption("Game that is bad")
 
 background = pygame.image.load('stars.png')
 splash = pygame.image.load('splash.png')
 
-icon = pygame.image.load('Profile_Transparent.png')
+icon = pygame.image.load('Minimal_Profile.png')
 pygame.display.set_icon(icon)
 
-#Start Font
+# Start Font
 start_font = pygame.font.Font('freesansbold.ttf', 48)
 
-#Splash Screen
+
+# Splash Screen
 def game_intro():
     intro = True
 
@@ -45,6 +46,7 @@ def game_intro():
         pygame.display.update()
         clock.tick(5)
 
+
 # Background Music
 mixer.music.load('music.wav')
 mixer.music.set_volume(0.25)
@@ -55,7 +57,7 @@ playerImg = pygame.image.load('space-invaders.png')
 playerX = 600
 playerY = 600
 playerX_change = 0
-playerSpeed = 4
+playerSpeed = 10
 
 # Enemy
 enemyImg = []
@@ -63,8 +65,8 @@ enemyX = []
 enemyY = []
 enemyX_change = []
 enemyY_change = []
-num_of_enemies = 6
-enemySpeed = 3
+num_of_enemies = 10
+enemySpeed = 5
 
 for i in range(num_of_enemies):
     enemyImg.append(pygame.image.load('alien.png'))
@@ -77,8 +79,8 @@ for i in range(num_of_enemies):
 bulletImg = pygame.image.load('bullet.png')
 bulletX = 0
 bulletY = 600
-bulletSpeed = 10
-bulletY_change = 10
+bulletSpeed = 20
+bulletY_change = 20
 bullet_state = "ready"
 
 # Score
@@ -92,16 +94,20 @@ textY = 10
 # Game End
 end_font = pygame.font.Font('freesansbold.ttf', 72)
 
+
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
+
 def enemy(x, y, i):
     screen.blit(enemyImg[i], (x, y))
-    
+
+
 def fire_bullet(x, y):
     global bullet_state
     bullet_state = "fire"
     screen.blit(bulletImg, (x + 24, y + 16))
+
 
 def isColliding(enemyX, enemyY, bulletX, bulletY):
     distance = math.sqrt(math.pow(enemyX - bulletX, 2) + math.pow(enemyY - bulletY, 2))
@@ -109,14 +115,17 @@ def isColliding(enemyX, enemyY, bulletX, bulletY):
         return True
     else:
         return False
-    
+
+
 def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (x, y))
 
+
 def game_over():
     game_end = end_font.render("GAME OVER", True, (255, 255, 255))
-    screen.blit(game_end, (450, 360))
+    screen.blit(game_end, (400, 300))
+
 
 # Keep window open
 def game_loop():
@@ -191,7 +200,7 @@ def game_loop():
                 enemyY[i] += enemyY_change[i]
             enemy(enemyX[i], enemyY[i], i)
 
-            #Collision Detection
+            # Collision Detection
             colliding = isColliding(enemyX[i], enemyY[i], bulletX, bulletY)
             if colliding:
                 hit_sound = mixer.Sound('hit.wav')
@@ -215,6 +224,7 @@ def game_loop():
         show_score(textX, textY)
 
         pygame.display.update()
+
 
 game_intro()
 game_loop()
